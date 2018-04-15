@@ -5,9 +5,11 @@ A statically linked openvpnd executable for use in Ubiquity EdgeRouter devices t
 
 As of firmware 1.10.1 (4/14/2018), the version of OpenVPN in the Ubiquity firmware is 2.3.2. The current stable version is 2.4.5. I went ahead and compiled and statically linked OpenVPN latest stable as of 4/2018, which is 2.4.5. This wasn't just for fun, rather it was to support `tls-version-min 1.2`. Truely for the paranoid or the curious. Use it if you want, or don't.
 
-## Example ovpn file
+## MAJOR CAVEAT
 
-```
+This executable does NOT support server mode. It is meant for client only usage !!
+
+## Example ovpn file
 
 ```client
 dev-type tun
@@ -44,3 +46,12 @@ tls-version-min 1.2
 ## Note on lzo/lz4
 
 I also went ahead and linked in lz4 support in case your provider supports that
+
+## How to actually use this?
+
+Put the following in a startup script in /config, which is persistent. Remember that overwriting anything other than those under /config will disappear on reboot! Use an init script the `mount -o bind` to get the job done here
+
+```
+# mkdir /config/bin && cp ~ubnt/openvpn /config/bin/openvpn
+# mount -o bind /config/bin/openvpn /usr/sbin/openvpn
+```
